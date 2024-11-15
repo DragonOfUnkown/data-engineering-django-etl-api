@@ -9,6 +9,9 @@ class Client(models.Model):
     country = models.CharField(max_length=50)
     account_balance = models.DecimalField(max_digits=15, decimal_places=2)
 
+    def __str__(self):
+        return f"{self.name} ({self.email})"
+
 
 class Transaction(models.Model):
     transaction_id = models.IntegerField(primary_key=True)

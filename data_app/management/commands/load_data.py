@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # Load clients
-        clients_df = pd.read_csv('clients.csv')
+        clients_df = pd.read_csv('clients.csv', parse_dates=['date_of_birth'])
         for _, row in clients_df.iterrows():
             Client.objects.create(
                 client_id=row['client_id'],

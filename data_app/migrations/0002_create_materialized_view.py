@@ -9,12 +9,13 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             """
+            DROP MATERIALIZED VIEW IF EXISTS client_transaction_summary;
             CREATE MATERIALIZED VIEW client_transaction_summary AS
             SELECT
                 client_id,
                 COUNT(*) AS total_transactions,
                 SUM(CASE WHEN transaction_type = 'buy' THEN amount ELSE 0 END) AS total_spent,
-                SUM(CASE WHEN transaction_type = 'sell' THEN amount ELSE 0 END) AS total_gained
+                SUM(CASE WHEN transaction_type = 'sell' THEN ABS(amount) ELSE 0 END) AS total_gained
             FROM
                 data_app_transaction
             GROUP BY

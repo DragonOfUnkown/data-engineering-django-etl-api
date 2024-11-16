@@ -20,3 +20,29 @@ class Transaction(models.Model):
     transaction_date = models.DateField()
     amount = models.DecimalField(max_digits=15, decimal_places=2)
     currency = models.CharField(max_length=10)
+
+
+class MaterializedView(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    last_refreshed = models.DateTimeField(auto_now=True)
+
+    def refresh_view(self):
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute(f"REFRESH MATERIALIZED VIEW {self.name}")
+        self.last_refreshed = models.DateTimeField(auto_now=True)
+        self.save()
+
+    def __str__(self):
+        return self.name
+
+
+class ClientTransactionSummary(models.Model):
+    client_id = models.IntegerField(primary_key=True)
+    total_transactions = models.IntegerField()
+    total_spent = models.DecimalField(max_digits=15, decimal_places=2)
+    total_gained = models.DecimalField(max_digits=15, decimal_places=2)
+
+    class Meta:
+        managed = False  # Django will not manage the table
+        db_table = 'client_transaction_summary'

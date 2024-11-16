@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import ClientTransactionsAPI
+from django.contrib import admin
 
 urlpatterns = [
-    path('api/transactions/<int:client_id>/', ClientTransactionsAPI.as_view(), name='client-transactions'),
+    path('transactions/<int:client_id>/', ClientTransactionsAPI.as_view(), name='client-transactions'),
+
 ]

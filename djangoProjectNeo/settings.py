@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',  # Enable direct username/password authentication
         'rest_framework.authentication.SessionAuthentication',  # Browser-based session authentication
     ],
     'DEFAULT_PERMISSION_CLASSES': [

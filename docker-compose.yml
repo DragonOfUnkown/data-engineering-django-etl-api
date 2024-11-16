@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: neo_project_database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    ports:
+      - "5432:5432"  # Expose PostgreSQL for debugging (optional)
+
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "5000:8000"  # Match port to Django development server
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/neo_project_database
+
+volumes:
+  postgres_data:

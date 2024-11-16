@@ -91,7 +91,7 @@ DATABASES = {
         'NAME': 'neo_project_database',
         'USER': 'postgres',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
